@@ -1,5 +1,12 @@
 from sense_hat import SenseHat
 from datetime import datetime
+from csv import writer
+
+
+# Creating a file for writing Sensehat data to
+
+import csv
+
 
 sense = SenseHat()
 
@@ -20,5 +27,13 @@ def get_sense_data():
 
     return sense_data
 
-while True:
-    print(get_sense_data())
+with open('sensedata.csv', 'w', newline='') as f:
+    data_writer = writer(f)
+
+    while True:
+            print(get_sense_data())
+
+            # write output to file
+
+            data = get_sense_data()
+            data_writer.writerow(data)
