@@ -58,5 +58,5 @@ with open(filename, 'w', newline='') as f:
             # Write only the first 4 elememts, we do not need the 5th as we only used for calculation
             data_writer.writerow(data[0:4])
             # print(data[0],",",data[1],",",data[2])
-            print(data[0:4])
+            # print(data[0:4])
             timest = datetime.now()
