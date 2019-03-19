@@ -7,6 +7,14 @@ from csv import writer
 
 import csv
 
+# get the delay in seconds
+delay = int(input("Enter delay between readings in seconds: "))
+
+# get the filename to write to
+filename = input("Enter the name of output file: ")
+
+timest = datetime.now()
+# delay = 1
 
 sense = SenseHat()
 
@@ -25,15 +33,30 @@ def get_sense_data():
     now = datetime.now()
     sense_data.append(str(now.strftime("%Y-%m-%d %H:%M")))
 
-    return sense_data
+    # Get the time again, but in a format we can use to calculate delay
+    sense_data.append(now)
 
-with open('sensedata.csv', 'w', newline='') as f:
+    return sense_data
+# Write the values to a file
+with open(filename, 'w', newline='') as f:
     data_writer = writer(f)
 
+    # Wite csv headers
+    data_writer.writerow(["Temp", "Pressure", "Humidity", "Time"])
+    
+    
     while True:
-            print(get_sense_data())
+        
+          
+        # write output to file
 
-            # write output to file
+        data = get_sense_data()
 
-            data = get_sense_data()
-            data_writer.writerow(data)
+        dt = data[-1] - timest
+        
+        if dt.seconds > delay:
+            # Write only the first 4 elememts, we do not need the 5th as we only used for calculation
+            data_writer.writerow(data[0:4])
+            # print(data[0],",",data[1],",",data[2])
+            print(data[0:4])
+            timest = datetime.now()
